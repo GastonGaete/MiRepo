@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 
 struct cola{
-	int valores[6];
+	int valores[1000];
 	int largo;
 	int inicio;
 };
@@ -13,10 +15,10 @@ void scan(struct cola direcciones);
 void clook(struct cola direcciones);
 int pop(int pos, struct cola *cola );
 
-int main(){
+int main(char argc, char * argv[]){
 	struct cola direccion;
 	direccion.largo=0;
-	FILE *  input = fopen("input.txt","rb");
+	FILE *  input = fopen(argv[1],"rb");
 	fscanf(input, "%d \n",&direccion.inicio);
 	int i=0;
 	while (feof(input)==0){
@@ -24,10 +26,14 @@ int main(){
 		direccion.largo++;
 		i++;
 	} 
-	fcfs(direccion);
-	sstf(direccion);
-	scan(direccion);
-	clook(direccion);
+	if(strcmp(argv[2], "fcfs")==0){
+	fcfs(direccion);}
+	if(strcmp(argv[2], "sstf")==0){
+	sstf(direccion);}
+	if(strcmp(argv[2], "scan")==0){
+	scan(direccion);}
+	if(strcmp(argv[2], "clook")==0){
+	clook(direccion);}
 	return 0;
 }
 
@@ -44,11 +50,11 @@ void fcfs(struct cola direcciones){
 	pos=0;
 	siguiente=direcciones.inicio;
 	while(direcciones.largo>0){
-		if((direcciones.valores[pos]>siguiente) and (modo==1)){
+		if((direcciones.valores[pos]>siguiente) && (modo==1)){
 			cambio++;
 			modo=0;	
 		}
-		else if((direcciones.valores[pos]<siguiente) and (modo==0)){
+		else if((direcciones.valores[pos]<siguiente) && (modo==0)){
 			cambio++;
 			modo=1;
 		
@@ -107,11 +113,11 @@ void fcfs(struct cola direcciones){
 			 }
 		 }
 		else{
-			if((direcciones.valores[pos]>siguiente) and (modo==1)){
+			if((direcciones.valores[pos]>siguiente) && (modo==1)){
 				cambio++;
 				modo=0;	
 			}
-			else if((direcciones.valores[pos]<siguiente) and (modo==0)){
+			else if((direcciones.valores[pos]<siguiente) && (modo==0)){
 				cambio++;
 				modo=1;
 			}
@@ -150,7 +156,7 @@ void scan(struct cola direcciones){
  		minimo=256;
  		nada=0;
  		for(int i=0;i<direcciones.largo;i++){
- 			if(modo==0 and (direcciones.valores[i]>=siguiente)){
+ 			if(modo==0 && (direcciones.valores[i]>=siguiente)){
 				diferencia = direcciones.valores[i]-siguiente;
 	 			if(diferencia<0){
 	 				diferencia=-1*diferencia;
@@ -160,7 +166,7 @@ void scan(struct cola direcciones){
 				  minimo=diferencia;
 				}
 			}
-			else if(modo==1 and (direcciones.valores[i]<=siguiente)){
+			else if(modo==1 && (direcciones.valores[i]<=siguiente)){
 				diferencia = direcciones.valores[i]-siguiente;
 	 			if(diferencia<0){
 	 				diferencia=-1*diferencia;
@@ -218,7 +224,7 @@ void clook(struct cola direcciones){
  		minimo=256;
  		nada=0;
  		for(int i=0;i<direcciones.largo;i++){
- 			if(modo==0 and (direcciones.valores[i]>=siguiente)){
+ 			if(modo==0 && (direcciones.valores[i]>=siguiente)){
 				diferencia = direcciones.valores[i]-siguiente;
 	 			if(diferencia<0){
 	 				diferencia=-1*diferencia;
